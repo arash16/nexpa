@@ -1,0 +1,9 @@
+{
+  "name": "babel",
+  "private": true,
+  "license": "Apache-2.0",
+  "author": "Arash Shakery <arash.shakery@gmail.com> (arash16.com)",
+  "devDependencies": {
+    "lerna": "^2.0.0-rc.4"
+  }
+}
