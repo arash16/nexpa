@@ -1,0 +1,31 @@
+{
+  "name": "babel-plugin-jsnx",
+  "version": "0.0.1",
+  "description": "a babel-pluging to generate nexpa code from jsx source.",
+  "author": "Arash Shakery <arash.shakery@gmail.com> (arash16.com)",
+  "license": "Apache-2.0",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "babel src/index.js -o lib/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arash16/babel-plugin-jsnx.git"
+  },
+  "keywords": [
+    "babel-plugin",
+    "transpiler",
+    "jsx",
+    "reative"
+  ],
+  "bugs": {
+    "url": "https://github.com/arash16/babel-plugin-jsnx/issues"
+  },
+  "homepage": "https://github.com/arash16/babel-plugin-jsnx#readme",
+  "dependencies": {
+    "babel-template": "*"
+  },
+  "devDependencies": {
+    "babel-preset-env": "*"
+  }
+}
