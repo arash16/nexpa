@@ -52,7 +52,8 @@ function ExtendArray(arr, a) {
         if (a[method]) arr[method] = a[method].bind(a);
     }
 
-    arr.isNexable = 'A';
+    arr.isNexable = 'A' + (isFunc(a.set) ? 'W' : 'C');
+
 
     arr.size = tracker.computed(function () { return a.size(); });
 

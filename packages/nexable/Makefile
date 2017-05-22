@@ -14,7 +14,7 @@ build-browser:
 test: test-node test-phantom
 
 test-node:
-	$(NYC) --clean -c false --reporter=html $(MOCHA) -r ./test/setup.js
+	$(NYC) --reporter=html $(MOCHA) -r ./test/setup.js
 
 test-phantom:
 	$(MOCHA_PHANTOM) ./test/browser.html

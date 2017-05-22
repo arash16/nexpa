@@ -6,7 +6,7 @@ function isNexable(obj, type) {
 
     if (isFunc(obj)) {
         var isNx = obj.isNexable;
-        if (isNx) return !type || type.indexOf(isNx) >= 0;
+        if (isNx) return !type || isNx.indexOf(type) >= 0;
     }
     return false;
 }

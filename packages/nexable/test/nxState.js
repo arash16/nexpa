@@ -25,7 +25,7 @@ describe("nx.state", function() {
 	});
 
 	it("Should not advertise that non-nexable values are nexable", function() {
-		var vals = [undefined, null, 'x', {}, function(){}, /sdf/g, 1, true];
+		var vals = [undefined, null, 'x', {}, function(){}, /sdf/g, 1, true, []];
 		for (var i=0; i<vals.length; ++i)
 			expect(nx.isNexable(vals[i])).to.be.false;
 	});
