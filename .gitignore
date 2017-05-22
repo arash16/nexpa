@@ -21,3 +21,4 @@ node_modules
 jspm_packages
 
 /packages/*/lib
+/packages/*/dist

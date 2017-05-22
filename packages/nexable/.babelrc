@@ -1,0 +1,9 @@
+{
+	"plugins": [
+		"merge",
+		"transform-es2015-arrow-functions",
+		"transform-es2015-block-scoping",
+		"constif",
+		"ceval"
+	]
+}

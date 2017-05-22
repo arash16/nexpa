@@ -1,14 +1,18 @@
 {
-  "name": "babel-plugin-jsnx",
+  "name": "nxutils",
   "version": "0.0.1",
-  "description": "a babel-plugin to generate nexpa code from jsx source.",
+  "description": "Utility libraries for nexpa.",
   "author": "Arash Shakery <arash.shakery@gmail.com> (arash16.com)",
   "license": "Apache-2.0",
   "main": "lib/index.js",
+  "includable": {
+    "": "src/index.js"
+
+  },
   "scripts": {
     "build": "babel src/index.js -o lib/index.js"
   },
-  "repository": "https://github.com/arash16/nexpa/tree/master/packages/babel-plugin-jsnx",
+  "repository": "https://github.com/arash16/nexpa/tree/master/packages/nxutils",
   "keywords": [
     "babel-plugin",
     "transpiler",
@@ -16,6 +20,7 @@
     "reative"
   ],
   "devDependencies": {
-    "babel-preset-env": "*"
+    "babel-plugin-constif": "*",
+    "babel-plugin-merge": "*"
   }
 }

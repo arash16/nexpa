@@ -1,0 +1,36 @@
+{
+  "name": "nexable",
+  "version": "0.0.1",
+  "description": "Nexables are next generation of observables.",
+  "author": "Arash Shakery <arash.shakery@gmail.com> (arash16.com)",
+  "license": "Apache-2.0",
+  "main": "lib/index.js",
+  "includable": "src/index.js",
+  "scripts": {
+    "build": "make build",
+    "test": "make test"
+  },
+  "repository": "https://github.com/arash16/nexpa/tree/master/packages/nexable",
+  "keywords": [
+    "babel-plugin",
+    "transpiler",
+    "jsx",
+    "reative"
+  ],
+  "dependencies": {
+    "nxutils": "*"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-plugin-ceval": "*",
+    "babel-plugin-constif": "*",
+    "babel-plugin-merge": "*",
+    "babel-plugin-transform-es2015-arrow-functions": "^6.22.0",
+    "babel-plugin-transform-es2015-block-scoping": "^6.24.1",
+    "chai": "^3.5.0",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.4.1",
+    "mocha-phantomjs": "^4.1.0",
+    "nyc": "^10.3.2"
+  }
+}
