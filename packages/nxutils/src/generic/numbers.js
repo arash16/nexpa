@@ -1,3 +1,5 @@
+import "./base";
+
 function mod(a, b) {
     var r = a % b;
     return r < 0 ? r + b : r;

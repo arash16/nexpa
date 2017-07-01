@@ -1,3 +1,4 @@
+import "./is-x";
 import "./base";
 import "./functions";
 import "./objects";

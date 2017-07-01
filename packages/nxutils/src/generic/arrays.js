@@ -1,3 +1,5 @@
+import "./base";
+
 function slice(a, s, e) {
     s = s | 0;
     if (!isVoid(e)) e = e | 0;

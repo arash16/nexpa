@@ -13,6 +13,8 @@ function isObjectLike(x) { return isFunc(x) || isObject(x); }
 function isValue(val) { return val ? !isObjectLike(val) : !isVoid(val); }
 
 function isArray(a) { return Array.isArray(a) && a; }
+
+function objToString(o) { return {}.toString.call(o); }
 function isDate(d) { return objToString(d) === '[object Date]' && d; }
 function isRegExp(re) { return objToString(re) === '[object RegExp]' && re; }
 function isPromiseLike(obj) { return isObjectLike(obj) && isFunc(obj.then); }

@@ -7,11 +7,10 @@ function xhr(method, url, data, callback) {
 
             var data = JSON.parse(httpRequest.responseText);
 
-            if (httpRequest.status === 200) {
+            if (httpRequest.status === 200)
                 callback(null, data);
-            } else {
+            else
                 callback(new Error('There was a problem with the request.'), data);
-            }
         }
     };
 

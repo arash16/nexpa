@@ -16,17 +16,8 @@ var defineProp = Object.defineProperty,
     getObjectOwnKeys = Object.getOwnPropertyNames,
     getObjectKeys = Object.keys;
 
-function hasProp(o, p) {
-    return {}.hasOwnProperty.call(o, p);
-}
-
-function objToString(o) {
-    return {}.toString.call(o);
-}
-
-function nullObject(proto, d) {
-    return Object.create(proto || null, d);
-}
+function hasProp(o, p) { return {}.hasOwnProperty.call(o, p); }
+function nullObject(proto, d) { return Object.create(proto || null, d); }
 
 import "./is-x";
 

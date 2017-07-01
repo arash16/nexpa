@@ -1,4 +1,8 @@
 var JulianDate = (function () {
+	import "../generic/base";
+	import "../generic/strings";
+	import "../generic/numbers";
+
     import "./utils";
     import "./julian";
     import "./gregorian";

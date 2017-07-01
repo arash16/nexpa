@@ -1,3 +1,5 @@
+import "./base";
+
 var __oPropertyDescriptor = Object.getOwnPropertyDescriptor,
     setProto = Object.setPrototypeOf || ((obj, p) => ((obj.__proto__ = p), obj));
 

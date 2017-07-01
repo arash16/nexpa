@@ -1,8 +1,10 @@
+import "./base";
+
 var fromCharCode = String.fromCharCode,
     reObjectProtoToStr = /^\[object [a-zA-Z$_][a-zA-Z$_0-9]*\]$/;
 
 function tryStringify(inp, def) {
-    var o = unwrap(inp);
+    var o = unwrap ? unwrap(inp) : inp;
     if (isVoid(o)) return def;
     if (isValue(o)) return String(o);
 

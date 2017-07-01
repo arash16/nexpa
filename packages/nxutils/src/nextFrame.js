@@ -1,6 +1,4 @@
 if ("isClient") {
-    function nextTick(cb) { cb(); }
-
     var requestAnimationFrame = (function () {
         var timeLast = 0;
         return global.requestAnimationFrame
@@ -23,7 +21,5 @@ if ("isClient") {
     var nextFrame = requestAnimationFrame;
 }
 else {
-    var nextTick = process.nextTick;
-
     function nextFrame(cb) { cb(); }
 }

@@ -1,3 +1,12 @@
+import "./generic/is-x";
+
+function stopPropagation(e, preventDefault) {
+    e.stopPropagation();
+    if (preventDefault)
+        e.preventDefault();
+    return false;
+}
+
 var addShortcutListener = (function () {
     var re = /(?:^|\+)(alt|ctrl?|shift)/gi,
         cmKeys = ['altKey', 'ctrlKey', 'shiftKey'],
@@ -16,7 +25,6 @@ var addShortcutListener = (function () {
         lk.match(re).forEach(function (p) {
             cmdKeys[cmKeysInd[p[0]] || cmKeysInd[p[1]]] = true;
         });
-        console.log(keyCode, key, code, cmdKeys);
 
         function evHandler(e) {
             if (e.keyCode == keyCode || e.key == key || e.code == code) {

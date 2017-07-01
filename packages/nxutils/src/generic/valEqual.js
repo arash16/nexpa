@@ -1,3 +1,5 @@
+import "./base";
+
 function toPrimitiveValue(obj) {
     return obj instanceof Number ||
            obj instanceof String ||

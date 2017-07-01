@@ -1,3 +1,5 @@
+import "./generic/is-x";
+
 function isNexable(obj, type) {
     // W: writable
     // C: computed
@@ -18,6 +20,9 @@ function unwrap(nexableOrValue) {
     return nexableOrValue;
 }
 
+function ifThen(test, thenResult, elseResult) {
+    return unwrap(test) ? unwrap(thenResult) : unwrap(elseResult);
+}
 
 function toInteger(num, d) {
     var r = parseInt(unwrap(num));
