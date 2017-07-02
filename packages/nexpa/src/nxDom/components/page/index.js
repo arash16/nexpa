@@ -1,6 +1,6 @@
 el.defineComponent('page', function (props, childs) {
-    import "header";
-    import "breadcrumb";
+    import "./header";
+    import "./breadcrumb";
 
     var router = props.router;
 

@@ -5,9 +5,9 @@ var SPA = function () {
         Icon = nxDom.icon,
         el = nxDom.el;
 
-    import "utils";
-    import "window";
-    import "init";
+    import "./utils";
+    import "./window";
+    import "./init";
 
     extend(spa, {
         document: document,
@@ -18,5 +18,5 @@ var SPA = function () {
         el: el
     });
 
-    import "plugins";
+    import "./plugins";
 };

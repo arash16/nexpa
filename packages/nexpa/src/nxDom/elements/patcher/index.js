@@ -1,2 +1,2 @@
-import "node-proxy";
-import "childs-patcher";
+import "./node-proxy";
+import "./childs-patcher";

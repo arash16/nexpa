@@ -1,2 +1,2 @@
-import "form-container";
-import "form-group";
+import "./form-container";
+import "./form-group";

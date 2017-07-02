@@ -1,5 +1,5 @@
-import 'apply-children';
-import 'apply-properties';
+import "./apply-children";
+import "./apply-properties";
 
 var NX_ELEMENT_LAST_ID = 0;
 

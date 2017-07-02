@@ -7,9 +7,9 @@ var globalElements = nx.state([]);
         globalElements(globalElements.peek().concat(elem));
     }
 
-    import "router";
-    import "alerts";
-    import "modals";
-    import "popups";
-    import "tooltips";
+    import "./router";
+    import "./alerts";
+    import "./modals";
+    import "./popups";
+    import "./tooltips";
 })();

@@ -1,9 +1,9 @@
 var NxDom = function () {
-    import "document";
-    import "css";
-    import "elements";
-    import "hyperscript";
-    import "components";
+    import "./document";
+    import "./css";
+    import "./elements";
+    import "./hyperscript";
+    import "./components";
 
     this.document = document;
     this.render = renderElement;

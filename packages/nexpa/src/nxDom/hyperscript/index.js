@@ -1,6 +1,6 @@
-import "parse-children";
-import "components";
-import "behaviors";
+import "./parse-children";
+import "./components";
+import "./behaviors";
 
 function el(tag, props, children) {
     if (isObject(tag)) {
@@ -44,8 +44,7 @@ el.rawText = function (textContent) {
 };
 
 function shortHand(tag) {
-    return (props, children)
-        => el(tag, props, children);
+    return (props, children) => el(tag, props, children);
 }
 
 el._a = function (props, children) {

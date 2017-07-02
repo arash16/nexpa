@@ -1,6 +1,6 @@
-import 'patcher';
-import "nxElement";
-import "nxTextNode";
+import "./patcher";
+import "./nxElement";
+import "./nxTextNode";
 
 var renderElement = function (nxElement) {
     nxElement = unwrap(nxElement);

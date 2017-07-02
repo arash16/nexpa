@@ -3,12 +3,12 @@ if ("isClient") {
 }
 else {
     var Document = (function () {
-        import "dom-walk";
-        import "dom-text";
-        import "dom-element";
-        import "dom-fragment";
-        import "style";
-        import "event";
+        import "./dom-walk";
+        import "./dom-text";
+        import "./dom-element";
+        import "./dom-fragment";
+        import "./style";
+        import "./event";
 
         function Document() {
             this.body = this.createElement("body");

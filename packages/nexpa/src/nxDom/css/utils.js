@@ -46,6 +46,7 @@ function roundCssValue(cssVal) {
     var val = tryStringify(cssVal);
     if (!val) return '';
 
-    return val.replace(reRoundCssParser, (a, s, x, unit)
-        => s + (+x * 100 | 0) / 100 + (unit || ''));
+    return val.replace(reRoundCssParser,
+    	(a, s, x, unit) => s + (+x * 100 | 0) / 100 + (unit || '')
+	);
 }
