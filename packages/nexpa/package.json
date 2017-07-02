@@ -6,9 +6,7 @@
   "license": "Apache-2.0",
   "main": "lib/index.js",
   "includable": {
-  	"": "src/index.js",
-  	"nxDom": "src/nxDom/index.js",
-  	"spa": "src/spa/index.js"
+  	"": "src/index.js"
   },
   "scripts": {
     "build": "make build",

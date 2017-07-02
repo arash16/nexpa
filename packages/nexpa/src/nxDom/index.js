@@ -1,4 +1,7 @@
 var NxDom = function () {
+	import "nxutils";
+	import "nexable";
+
     import "./document";
     import "./css";
     import "./elements";

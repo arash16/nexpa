@@ -1,14 +1,3 @@
-var xhr = function () {
-    for (var a = 0; a < 4; a++)
-        try {
-            return a
-                ? new ActiveXObject([, "Msxml2", "Msxml3", "Microsoft"][a] + ".XMLHTTP")
-                : new XMLHttpRequest
-        }
-        catch (e) {}
-};
-
-
 var LocalStorage = function (store, json) {
     return json
         ? {
