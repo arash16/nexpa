@@ -10,10 +10,10 @@ pids
 lib-cov
 coverage
 
-.nyc_output
-.grunt
-.lock-wscript
 .npm
+.grunt
+.nyc_output
+.lock-wscript
 .node_repl_history
 
 build/Release
