@@ -44,8 +44,16 @@ function camelCase(str) {
     });
 }
 
-
 applyShim(String.prototype, {
+    'startsWith': function (prefix) {
+        return this.substring(0, prefix.length) === prefix;
+    },
+    'endsWith': function (postfix) {
+        return this.substring(this.length - postfix.length) === postfix;
+    },
+    'repeat': function (count) {
+        return new Array(count).join(this) + this;
+    },
     'includes': function () {
         'use strict';
         return ''.indexOf.apply(this, arguments) !== -1;

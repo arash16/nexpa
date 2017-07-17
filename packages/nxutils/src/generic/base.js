@@ -1,4 +1,4 @@
-var global = (function () { return this || (0, eval)('this'); }).call(null),
+var global = (0,eval)('this'),
     String = global.String,
     Number = global.Number,
     Boolean = global.Boolean,
@@ -60,15 +60,3 @@ function applyShim(obj, property, value) {
 
     return obj;
 }
-
-applyShim(String.prototype, {
-    'startsWith': function (prefix) {
-        return this.substring(0, prefix.length) === prefix;
-    },
-    'endsWith': function (postfix) {
-        return this.substring(this.length - postfix.length) === postfix;
-    },
-    'repeat': function (count) {
-        return new Array(count).join(this) + this;
-    }
-});

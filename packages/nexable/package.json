@@ -12,10 +12,15 @@
   },
   "repository": "https://github.com/arash16/nexpa/tree/master/packages/nexable",
   "keywords": [
-    "babel-plugin",
-    "transpiler",
-    "jsx",
-    "reative"
+    "observable",
+    "knockout",
+    "nexable",
+    "nexpa",
+    "spa",
+    "react",
+    "reactive",
+    "functional",
+    "frp"
   ],
   "dependencies": {
     "nxutils": "*"

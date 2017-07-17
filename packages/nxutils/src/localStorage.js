@@ -9,4 +9,7 @@ var LocalStorage = function (store, json) {
                }
            }
         : {}
-}(global.localStorage || {}, JSON);
+}(function(){
+	try { return global.localStorage || {}; }
+	catch(e) { return {}; }
+}(), JSON);

@@ -52,7 +52,7 @@ el._a = function (props, children) {
     return el('a', props, children);
 };
 
-iEval(function () {
+ceval(function () {
     return ['p', 'i', 'b', 'h1', 'h2', 'h3', 'h4', 'ul', 'ol', 'li',
             'div', 'span', 'small', 'strong', 'br', 'img', 'header', 'footer', 'section',
             'form', 'fieldset', 'legend', 'input', 'select', 'option', 'button', 'textarea', 'label'].map(function (t) {

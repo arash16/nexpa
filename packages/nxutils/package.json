@@ -1,24 +1,27 @@
 {
   "name": "nxutils",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Utility libraries for nexpa.",
   "author": "Arash Shakery <arash.shakery@gmail.com> (arash16.com)",
   "license": "Apache-2.0",
   "main": "lib/index.js",
   "includable": {
     "": "src/index.js",
-    "calendar": "src/calendar/index.js"
-
+    "calendar": "src/calendar/index.js",
+    "generic": {
+    	"base": "src/generic/base.js",
+    	"is-x": "src/generic/is-x.js"
+    }
   },
   "scripts": {
     "build": "babel src/index.js -o lib/index.js"
   },
   "repository": "https://github.com/arash16/nexpa/tree/master/packages/nxutils",
   "keywords": [
-    "babel-plugin",
-    "transpiler",
-    "jsx",
-    "reative"
+    "nexable",
+    "nexpa",
+    "utility",
+    "helper"
   ],
   "devDependencies": {
     "babel-plugin-constif": "*",
