@@ -1,4 +1,4 @@
-describe("nx.array", function() {
+describe.skip("nx.array", function() {
 	it("Should advertise that instances are nexable", function() {
 		var inst = nx.array();
 		expect(nx.isNexable(inst)).to.be.true;
