@@ -8,23 +8,43 @@ function xhrObject() {
         catch (e) {}
 }
 
+var _xhrHeaders = { "Content-Type": "application/json" };
 function xhr(method, url, data, callback) {
-    var httpRequest = xhrObject();
+    var httpRequest = xhrObject(),
+    	isJson = _xhrHeaders['Content-Type'] == 'application/json';
 
     httpRequest.onreadystatechange = function () {
         if (httpRequest.readyState === XMLHttpRequest.DONE) {
-            var data = JSON.parse(httpRequest.responseText);
+        	var code = httpRequest.status,
+        		resp = httpRequest.responseText;
 
-            if (httpRequest.status === 200)
-                callback(null, data);
-            else
-                callback(new Error('There was a problem with the request.'), data);
+			if (code == 0)
+				callback(new Error('Connection Error'), null, 0);
+        	else {
+		        var data = resp && isJson ? JSON.parse(resp) : resp;
+		        if (code < 400)
+		            callback(null, data, code);
+		        else
+		            callback(new Error('There was a problem with the request.'), data, code);
+            }
         }
     };
 
     httpRequest.open(method, url, true);
-    httpRequest.setRequestHeader('Content-Type', 'application/json');
+    eachKey(_xhrHeaders, httpRequest.setRequestHeader.bind(httpRequest));
     httpRequest.send(data ? JSON.stringify(data) : null);
 
     return httpRequest;
+}
+
+xhr.setHeader = function(key, value) {
+	_xhrHeaders[key] = value;
+}
+
+xhr.getHeader = function(key) {
+	return _xhrHeaders[key];
+}
+
+xhr.unsetHeader = function(key) {
+	delete _xhrHeaders[key];
 }

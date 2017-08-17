@@ -60,3 +60,9 @@ function applyShim(obj, property, value) {
 
     return obj;
 }
+
+function assert(condition, message) {
+    console.assert(condition, message, assert.caller);
+    if (!condition)
+        throw new Error('ASSERT: ' + (message || 'Error'));
+}

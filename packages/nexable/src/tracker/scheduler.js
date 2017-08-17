@@ -29,7 +29,7 @@ tracker.signal = function () {
     Tracker = tracker;
 
 
-    //logger.group();
+    //console.group();
     if (nowNode.targetsCount)
         nowNode.trUpdate(Date.now());
 
@@ -50,7 +50,7 @@ tracker.signal = function () {
 
     //if ("isDev") {
     //    if (__evaluations) {
-    //        logger.red('Evals: ' + __evaluations, {
+    //        console.red('Evals: ' + __evaluations, {
     //            'isDirty': __isDirtyCalls
     //        });
     //
@@ -59,7 +59,7 @@ tracker.signal = function () {
     //    }
     //}
 
-    //logger.groupEnd();
+    //console.groupEnd();
 
     Tracker = outerTracker;
     isSignaling = false;

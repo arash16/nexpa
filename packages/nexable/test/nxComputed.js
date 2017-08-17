@@ -40,8 +40,10 @@ describe("nx.computed", function() {
 		var cp = nx.computed(function() { return st(); });
 		expect(cp()).to.equal(1);
 		st(2);
+		expect(st()).to.equal(1);
 		expect(cp()).to.equal(1);
 		nx.signal();
+		expect(st()).to.equal(2);
 		expect(cp()).to.equal(2);
 	});
 

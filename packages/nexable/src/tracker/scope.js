@@ -7,17 +7,17 @@ tracker.enter = function () {
         logGroupId = 'Scope ' + tracker.id;
 
     if (isActive) {
-        logger.group(logGroupId, tracker);
+        console.group(logGroupId, tracker);
         Tracker = tracker;
 
         return function () {
             Tracker = outerTracker;
-            logger.groupEnd(logGroupId);
+            console.groupEnd(logGroupId);
         };
     }
     else if (parentTracker) {
         var exitParent = parentTracker.enter();
-        logger.group(logGroupId, tracker);
+        console.group(logGroupId, tracker);
 
         isActive = true;
         tracker.signal();
@@ -27,7 +27,7 @@ tracker.enter = function () {
             Tracker = outerTracker;
             isActive = false;
 
-            logger.groupEnd(logGroupId);
+            console.groupEnd(logGroupId);
             exitParent();
         };
     }

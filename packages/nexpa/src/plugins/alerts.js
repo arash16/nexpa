@@ -65,7 +65,7 @@ popAlert.warn = function (title, message) {
 };
 
 popAlert.error = function (title, message) {
-    popAlert(title, message, 'error');
+    popAlert(title, message, 'danger');
 };
 
 popAlert.info = function (title, message) {

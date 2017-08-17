@@ -46,7 +46,7 @@ function _gc() {
 
 
     _log_gcCum += _log_gcCounts;
-    logger.red('GC Nodes', _log_gcCounts, _log_gcCum, __lastNodeId);
+    console.warn('GC Nodes', _log_gcCounts, _log_gcCum, __lastNodeId);
     _log_gcCounts = 0;
 }
 
