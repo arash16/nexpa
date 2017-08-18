@@ -1,9 +1,8 @@
 function _once(fn, store, id) {
-    if (!store) return new MiddleNode(fn, {onDisposed: true}).evaluate();
-    return store[id] || (store[id] =
-    	new MiddleNode(fn, {
-        	onDisposed: function() { store[id] = undefined; return true; }
-    	}).evaluate());
+    if (!store) return new MiddleNode(fn).evaluate();
+    return (store[id] || (store[id] =
+    	new MiddleNode(fn, { onDisconnected: function() { delete store[id]; } }))
+	).evaluate();
 }
 
 

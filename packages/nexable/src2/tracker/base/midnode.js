@@ -28,10 +28,8 @@ MiddleNode.prototype = {
 				newValue = node.read();
 			unlinkInactiveSources(node, oldSources);
 
+			node.evaluating = false; // outlinks should be clean for updating
 			node.update(newValue);
-			
-			// after update, because of immediate circular references to be unClean
-			node.evaluating = false;
 		}
 
 		activeNode = outerNode;
@@ -72,6 +70,7 @@ MiddleNode.prototype = {
 		}
 
 		node.cse = CURRENT_CYCLE;
+		assert(!node.dirtins, "A clean node should not have dirtins.");
 		return false;;
 	},
 
@@ -79,16 +78,16 @@ MiddleNode.prototype = {
 		var node = this;
 		assert(node.cse == CURRENT_CYCLE, 'MidNode should be clean on update call.');
 
-		var dirts = 0;
+		var dirts = node.targets[node.nodeId] && !valEqual(node.value, newValue) ? 1 : 0;
 		for (var i=0, lnk; i<node.sources.length; ++i)
-			if (lnk = node.sources[i])
+			if ((lnk = node.sources[i]) && lnk.sourceNode != node)
 				dirts += !lnk.isClean();
 		node.dirtins = dirts;
 
 		node.value = newValue;
 
 		// this node was definitely dirty (dirtins>0 or cse=DIRTY) and that's why it's evaluated & updated
-		if (!dirts) // we have become clean
+		if (!dirts) // we have become clean & we're not self-recursive
 			eachTarget(node, function(lnk) {
 				assert(!lnk.inactive, 'Target links should be active at this stage.');
 				// for any target links that is clean (was not clean)

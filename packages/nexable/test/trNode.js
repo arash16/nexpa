@@ -132,13 +132,13 @@ describe("Expression Evaluation", function() {
 			expect(calls).to.equal(1);
 		}
 	});
-	
+
 	it("Should make the whole circular chain dirty", function() {
 		var a = nx(function() { return b(); }),
 			b = nx(function() { return c()|0; }),
 			c = nx(function() { return a()+1; }),
 			d = nx(function() { return b(); });
-		
+
 		for (var i=0; i<10; ++i) {
 			expect(a()).to.equal(i);
 			expect(b()).to.equal(i);
@@ -146,7 +146,7 @@ describe("Expression Evaluation", function() {
 			nx.signal();
 		}
 	});
-	
+
 	it("Should dynamically stop recalculation if not depnded on a circular chain anymore", function() {
 		var chainCalls = 0,
 			xCalls = 0;
@@ -155,16 +155,16 @@ describe("Expression Evaluation", function() {
 			b = nx(function() { return c()|0; }),
 			c = nx(function() { return d()|0; }),
 			d = nx(function() { ++chainCalls; return a()+1; }),
-			
+
 			s = nx(1),
 			x = nx(function() { ++xCalls; return s() ? d() : -1; });
-		
+
 		for (var i=1; i<5; ++i)
 			expect(x()).to.equal(i),
 			expect(chainCalls).to.equal(i),
 			expect(xCalls).to.equal(i),
 			nx.signal();
-		
+
 		s(0); // chain disconnected
 		nx.signal();
 		expect(x()).to.equal(-1); // x evaluated one last
@@ -183,4 +183,47 @@ describe("Expression Evaluation", function() {
 			expect(chainCalls).to.equal(i),
 			expect(xCalls).to.equal(i+1);
 	});
+
+	describe("Should update links just once", function() {
+		// There are assertions inside source code
+
+		it("Case 1", function() {
+			var a = nx(function() { return d()|0; }),
+				b = nx(function() { return a(); }),
+				c = nx(function() { return a(); }),
+				d = nx(function() { return b()+c()+1; });
+
+			for (var i=1; i<5; ++i)
+				expect(d()).to.equal((1<<i)-1),
+				nx.signal();
+		});
+
+		it("Case 2", function() {
+			var calls = 0, callsE = 0,
+				a = nx(0),
+				b = nx(function() { ++calls; return a()+b()|0; }),
+				c = nx(function() { return b(); });
+
+			expect(c()).to.equal(0); ++callsE;
+			a(1);
+			for (var i=1; i<5; ++i)
+				nx.signal(),
+				expect(c()).to.equal(i), // b increases one by one
+				expect(calls).to.equal(++callsE);
+
+			a(2);
+			for (var i=3; i<=10; ++i)
+				nx.signal(),
+				expect(c()).to.equal(2*i), // b increases by 2 each time
+				expect(calls).to.equal(++callsE);
+
+			a(0); ++callsE;
+			for (var i=0; i<10; ++i)
+				nx.signal(),
+				expect(c()).to.equal(20), // b stops at it's last value
+				expect(calls).to.equal(callsE); // no more evaluations
+		});
+	});
+
+
 });
