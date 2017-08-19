@@ -4,7 +4,8 @@ function state(value, handlers) {
     var currentValue = value,
     	writeHandlerInstalled = false,
         backingNode = new LeafNode(value, handlers),
-        readingNode = new MiddleNode(read);
+        readingNode = new MiddleNode(read),
+        disposed = false;
 
     function read() {
         updateBackingNode();
@@ -22,7 +23,8 @@ function state(value, handlers) {
         if (!arguments.length)
             return readingNode.evaluate();
 
-        if (!valEqual(currentValue, newValue)) {
+		assert(!disposed, "Cannot write to a disposed state.");
+        if (!disposed && !valEqual(currentValue, newValue)) {
             currentValue = newValue;
 
 			// less backingNode.update calls
@@ -36,7 +38,15 @@ function state(value, handlers) {
 
     NxState.isNexable = 'W';
     NxState.peek = () => currentValue;
-    NxState.dispose = () => backingNode.dispose();
+    NxState.dispose = function() {
+		assert(!disposed, "Already disposed.");
+		if (!disposed)
+			if (!writeHandlerInstalled)
+				backingNode.dispose();
+			else
+				tracker.beforeSignal(() => backingNode.dispose());
+		disposed = true;
+    };
     return NxState;
 };
 tracker.state = state;

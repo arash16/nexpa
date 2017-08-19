@@ -13,12 +13,13 @@ function scheduleGC(node) {
 	}
 
 	if (gcTimeout) clearTimeout(gcTimeout);
-	gcTimeout = setTimeout(disconnectScheduledNodes, DEFERRED_UNLINKS_INTERVAL);
+	gcTimeout = setTimeout(GCHangler, DEFERRED_UNLINKS_INTERVAL);
 }
 
 
-function disconnectScheduledNodes() {
+function GCHangler(forced) {
 	garbageCollectionPhase = true;
+	if (gcTimeout && forced) clearTimeout(gcTimeout);
 
     var nodes = deferredNodes;
 	deferredNodes = [];
@@ -31,3 +32,5 @@ function disconnectScheduledNodes() {
 
     garbageCollectionPhase = false;
 }
+
+tracker.forceGC = function() { GCHangler(true); };

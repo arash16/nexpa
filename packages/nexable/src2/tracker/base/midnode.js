@@ -20,7 +20,13 @@ MiddleNode.prototype = {
 		var outerNode = activeNode;
 		activeNode = node;
 
+		var dec = !!node.sourcec;
 		if (node.isDirty()) {
+			if (node.cse == MAX_CYCLE) {
+				activeNode = outerNode;
+				return node.value;
+			}
+
 			node.evaluating = true;
 			lockNode(node);
 
@@ -34,11 +40,10 @@ MiddleNode.prototype = {
 
 		activeNode = outerNode;
 
-		if (node.sources.length || node.evaluating)
+		if (node.sourcec || node.dirtins || node.evaluating)
 			linkSource(node, activeNode);
-
 		else
-			node.dispose();
+			node.dispose(dec);
 
 		assert(node.cse!=DIRTY, "How could it be dirty in here?!")
 		lockNode(node);
@@ -64,6 +69,8 @@ MiddleNode.prototype = {
 
 			assert(!lnk.inactive, 'Source Link should not be inactive here.');
 			if (!valEqual(lnk.sourceNode.evaluate(), lnk.value) || node.cse != NEXT_CYCLE) {
+				if (node.cse == MAX_CYCLE) return false;
+
 				node.cse = DIRTY;
 				return true;
 			}
@@ -71,7 +78,7 @@ MiddleNode.prototype = {
 
 		node.cse = CURRENT_CYCLE;
 		assert(!node.dirtins, "A clean node should not have dirtins.");
-		return false;;
+		return false;
 	},
 
 	update: function(newValue) {
@@ -99,23 +106,17 @@ MiddleNode.prototype = {
 	},
 
 	// we don't have any sources
-	dispose: function() {
+	dispose: function(dec) {
 		var node = this;
-		if (node.cse == DIRTY) return;
+		if (node.cse == DIRTY || node.cse == MAX_CYCLE) return;
 		assert(node.sourcec == 0, 'sourcec should be zero on dispose.');
 		assert(node.dirtins == 0, 'dirtins should be zero on dispose.');
-
-		node.cse = MAX_CYCLE;
-		eachTarget(node, function(lnk) {
-			var target = lnk.targetNode;
-			// if there's no active sources & there's no dirty input
-			if (--target.sourcec <= 0 && !target.dirtins)
-				target.dispose();
-		});
+		assert(!node.evaluating,  'cannot dispose a evaluating node.');
 
 		node.read =
-		node.sources =
-		node.targets = null;
+		node.sources = null;
+		node.cse = MAX_CYCLE;
+		disposeTargets(node, dec);
 
 		// if onDisposed returns truthy value, we clear value (not default)
 		if (callHandler(node, node.handlers.onDisposed))

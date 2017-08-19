@@ -54,13 +54,13 @@ function linkSource(src, dst) {
 		dst.sources.push(lnk);
 		src.targets[tid] = lnk;
 		src.targetc++;
-		dst.sourcec++;
+		if (src.sourcec) dst.sourcec++;
 	}
 	else if (lnk.inactive) {
         lnk.inactive = false;
     	lnk.value = src.value;
         dst.sources.push(lnk);
-		dst.sourcec++;
+		if (src.sourcec) dst.sourcec++;
 	}
 	return lnk;
 }
@@ -71,7 +71,7 @@ function inactivateSources(node) {
 		var lnk = sources[i];
 		if (lnk) lnk.inactive = true;
 	}
-	node.dirtins
+	node.dirtins =
 	node.sourcec = 0;
 	node.sources = [];
 	return sources;

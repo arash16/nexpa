@@ -20,4 +20,14 @@ function computed(readFn, writeFn, handlers, peekFn) {
     res.peek = isFunc(peekFn) || (() => node.value);
     return res;
 }
-tracker.computed = computed;
+
+tracker.computed = function(readFn, writeFn, handlers) {
+	if (isObject(readFn))
+		return computed(readFn.read, readFn.write, {
+			onDisposed: readFn.onDisposed,
+			canDisconnect: readFn.canDisconnect,
+			onDisconnected: readFn.onDisconnected
+		});
+
+	return computed(readFn, writeFn, handlers);
+};

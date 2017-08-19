@@ -36,6 +36,7 @@ var nx = function() {
         state: function () { return Tracker.state.apply(Tracker, arguments); },
         array: function () { return Tracker.array.apply(Tracker, arguments); },
 
+        forceGC: function() { Tracker.forceGC(); },
         signal: function () { Tracker.signal(); },
         beforeSignal: function (callback) { return Tracker.beforeSignal(callback); },
         onSignal: function (callback) { return Tracker.onSignal(callback); },

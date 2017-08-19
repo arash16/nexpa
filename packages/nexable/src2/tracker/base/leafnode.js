@@ -4,6 +4,7 @@ function LeafNode(value, handlers) {
 }
 
 LeafNode.prototype = {
+	sourcec: 1,
 	cse: MAX_CYCLE,
 	evaluating: false,
 
@@ -20,6 +21,8 @@ LeafNode.prototype = {
 			oldValue = node.value;
 
 		if (!valEqual(oldValue, newValue)) {
+			assert(!this.disposed, "Cannot update a disposed node.");
+
 			node.value = newValue;
 			eachTarget(node, function(lnk) {
 				assert(!lnk.inactive, 'Target links should be active at this stage.');
@@ -38,15 +41,11 @@ LeafNode.prototype = {
 	// we don't have sources (we won't be updated again)
 	dispose: function() {
 		var node = this;
+		assert(!node.disposed, "LeafNode already disposed.");
 		if (node.disposed) return;
 		node.disposed = true;
 
-		eachTarget(node, function(lnk) {
-			var target = lnk.targetNode;
-			// if there's no active sources & there's no dirty input
-			if (--target.sourcec <= 0 && !target.dirtins)
-				target.dispose();
-		});
+		disposeTargets(node, true);
 
 		// if onDisposed returns truthy value, we clear value (not default)
 		if (callHandler(node, node.handlers.onDisposed))
