@@ -87,7 +87,7 @@ MiddleNode.prototype = {
 
 		// if it didn't cause any evaluations, neither does it depend on a already evaluating node
 		// then any dirtins are because of dirtiness of old circular chains, and they start from here
-		if (!evaluations && node.dirtins) {
+		if (node.dirtins && !evaluations && !node.sourcec) {
 			eachTarget(node, function(lnk) {
 				if (lnk.isClean())
 					lnk.update(true);
