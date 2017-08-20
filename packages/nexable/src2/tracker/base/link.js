@@ -86,6 +86,18 @@ function unlinkInactiveSources(node, sources) {
 	}
 }
 
+function unlinkSources(node) {
+	var nodeId = node.nodeId,
+		sources = node.sources;
+	for (var i=0; i<sources.length; ++i) {
+		var lnk = sources[i];
+		if (lnk) unlinkTarget(lnk.sourceNode, nodeId);
+	}
+	node.dirtins =
+	node.sourcec =
+	node.sources.length = 0;
+}
+
 function unlinkTarget(node, targetId) {
 	if (node.targets && node.targets[targetId]) {
 		if (--node.targetc == 0) {

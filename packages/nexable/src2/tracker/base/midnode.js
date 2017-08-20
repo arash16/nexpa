@@ -11,6 +11,7 @@ function MiddleNode(read, handlers) {
 }
 
 
+var evaluations = 0;
 MiddleNode.prototype = {
 	evaluate: function() {
 		var node = this;
@@ -36,7 +37,11 @@ MiddleNode.prototype = {
 
 			node.evaluating = false; // outlinks should be clean for updating
 			node.update(newValue);
+
+			++evaluations;
 		}
+		else if (node.evaluating)
+			++evaluations;
 
 		activeNode = outerNode;
 
@@ -62,6 +67,9 @@ MiddleNode.prototype = {
 			return false;
 
 
+		var oe = evaluations;
+		evaluations = 0;
+
 		node.cse = NEXT_CYCLE; // recursion makes it CURRENT_CYCLE, then in loop we check to return DIRTY
 		for (var i=0; node.dirtins && i<node.sources.length; ++i) {
 			var lnk = node.sources[i];
@@ -75,9 +83,21 @@ MiddleNode.prototype = {
 				return true;
 			}
 		}
-
 		node.cse = CURRENT_CYCLE;
-		assert(!node.dirtins, "A clean node should not have dirtins.");
+
+		// if it didn't cause any evaluations, neither does it depend on a already evaluating node
+		// then any dirtins are because of dirtiness of old circular chains, and they start from here
+		if (!evaluations && node.dirtins) {
+			eachTarget(node, function(lnk) {
+				if (lnk.isClean())
+					lnk.update(true);
+			});
+			node.dirtins = 0;
+		}
+		evaluations = oe;
+
+		// assert(!node.dirtins, "A clean node should not have dirtins.");
+		// */
 		return false;
 	},
 
@@ -112,6 +132,9 @@ MiddleNode.prototype = {
 		assert(node.sourcec == 0, 'sourcec should be zero on dispose.');
 		assert(node.dirtins == 0, 'dirtins should be zero on dispose.');
 		assert(!node.evaluating,  'cannot dispose a evaluating node.');
+
+		// we may have sources, but they're circular
+		unlinkSources(node);
 
 		node.read =
 		node.sources = null;

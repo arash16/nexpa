@@ -125,23 +125,29 @@ describe("Lifecycle Handlers", function() {
 		});
 
 		it("Should dispose circular & constant chains", function() {
-			var aDisposed = 0, bDisposed = 0,
+			var aDisposed = 0, bDisposed = 0, cDisposed = 0,
 				a = nx.computed({
 					read: function() { return b()|0 },
 					onDisposed: function() { ++aDisposed; }
 				}),
 				b = nx.computed({
-					read: function() { return a(); },
+					read: function() { return a()|0; },
 					onDisposed: function() { ++bDisposed; }
 				}),
-				c = nx(function() { return b(); });
+				c = nx.computed({
+					read: function() { return b() },
+					onDisposed: function() { ++cDisposed; }
+				});
 
-			expect(c()).to.equal(0);
-			nx.signal();
-			expect(c()).to.equal(0);
-			nx.signal();
+			// after three cycles it's known that nothing's gonna change
+			for (var i=0; i<3; ++i)
+				expect(aDisposed+bDisposed+cDisposed).to.equal(0),
+				expect(c()).to.equal(0),
+				nx.signal();
+
 			expect(bDisposed).to.equal(1);
 			expect(aDisposed).to.equal(1);
+			expect(cDisposed).to.equal(1);
 		});
 	});
 });
