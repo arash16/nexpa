@@ -149,5 +149,63 @@ describe("Lifecycle Handlers", function() {
 			expect(aDisposed).to.equal(1);
 			expect(cDisposed).to.equal(1);
 		});
+
+		it("Should dispose circular chain when it becomes constant", function() {
+			function onDisposed() { ++onDisposedCalls; }
+			var aDisposed = 0, bDisposed = 0, cDisposed = 0, dDisposed = 0,
+				x = nx(0),
+				a = nx.computed({
+					read: function a() { return c()|0 },
+					onDisposed: function() { ++aDisposed; }
+				}),
+				b = nx.computed({
+					read: function b() { return c()|0 },
+					onDisposed: function() { ++bDisposed; }
+				}),
+				c = nx.computed({
+					read: function c() { return a()+b()+x() },
+					onDisposed: function() { ++cDisposed; }
+				}),
+				d = nx.computed({
+					read: function d() { return c(); },
+					onDisposed: function() { ++dDisposed; }
+				});
+
+				expect(d()).to.equal(0);
+				x(1);
+				nx.signal();
+
+				expect(d()).to.equal(1);
+				x(0);
+				nx.signal();
+
+				expect(d()).to.equal(2);
+				nx.signal();
+
+				expect(d()).to.equal(4);
+				x(-8);
+				nx.signal();
+
+				expect(d()).to.equal(0);
+				x(0);
+				nx.signal();
+
+				expect(d()).to.equal(0);
+				expect(aDisposed+bDisposed+cDisposed+dDisposed).to.equal(0);
+				nx.signal();
+
+				x.dispose();
+				expect(d()).to.equal(0);
+				nx.signal();
+				expect(d()).to.equal(0);
+				// after two evaluations everything gets disposed
+
+				expect(aDisposed).to.equal(1);
+				expect(bDisposed).to.equal(1);
+				expect(cDisposed).to.equal(1);
+				expect(dDisposed).to.equal(1);
+		});
+
+		// more circular constant chains cases
 	});
 });

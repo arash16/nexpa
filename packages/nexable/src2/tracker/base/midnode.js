@@ -1,18 +1,31 @@
 var activeNode;
 function MiddleNode(read, handlers) {
 	BaseNode(this, handlers);
-	this.read = read;
-	this.cse = DIRTY;
 	this.value = undefined;
-	this.dirtins = 0;
-	this.sources = [];
+	this.read = read;
+	this.cse = // DIRTY;
+	this.dirtins =
 	this.sourcec = 0;
+	this.sources = [];
 	this.evaluating = false;
 }
 
 
 var evaluations = 0;
 MiddleNode.prototype = {
+	getSourcec: function() {
+		var node = this,
+			result = node.sourcec;
+		if (!result) return result;
+
+		var osc = node.sourcec;
+		result = node.sourcec = 0;
+		for (var i=0, lnk; !result && i<node.sources.length; ++i)
+			if ((lnk = node.sources[i]) && lnk.sourceNode.getSourcec()>0)
+				++result;
+		assert(result<=osc, "Sourcec calculation should decrease it.");
+		return node.sourcec = result;
+	},
 	evaluate: function() {
 		var node = this;
 		if (node.cse == MAX_CYCLE)
@@ -87,7 +100,7 @@ MiddleNode.prototype = {
 
 		// if it didn't cause any evaluations, neither does it depend on a already evaluating node
 		// then any dirtins are because of dirtiness of old circular chains, and they start from here
-		if (node.dirtins && !evaluations && !node.sourcec) {
+		if (node.dirtins && !node.getSourcec() && !evaluations) {
 			eachTarget(node, function(lnk) {
 				if (lnk.isClean())
 					lnk.update(true);
@@ -96,8 +109,8 @@ MiddleNode.prototype = {
 		}
 		evaluations = oe;
 
-		// assert(!node.dirtins, "A clean node should not have dirtins.");
-		// */
+		// if it has dirtins here, it means there are some
+		// circular dependencies that didn't change, but may change later
 		return false;
 	},
 
@@ -129,6 +142,8 @@ MiddleNode.prototype = {
 	dispose: function(dec) {
 		var node = this;
 		if (node.cse == DIRTY || node.cse == MAX_CYCLE) return;
+		node.cse = MAX_CYCLE;
+
 		assert(node.sourcec == 0, 'sourcec should be zero on dispose.');
 		assert(node.dirtins == 0, 'dirtins should be zero on dispose.');
 		assert(!node.evaluating,  'cannot dispose a evaluating node.');
@@ -138,7 +153,6 @@ MiddleNode.prototype = {
 
 		node.read =
 		node.sources = null;
-		node.cse = MAX_CYCLE;
 		disposeTargets(node, dec);
 
 		// if onDisposed returns truthy value, we clear value (not default)
