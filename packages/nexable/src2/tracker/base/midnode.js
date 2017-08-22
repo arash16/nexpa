@@ -10,21 +10,38 @@ function MiddleNode(read, handlers) {
 	this.evaluating = false;
 }
 
+function recursiveResetSourcec(node) {
+	if (!node.sourcec || node.cse==MAX_CYCLE) return;
+
+	node.sourcec = 0;
+	for (var i=0; i<node.sources.length; ++i)
+		recursiveResetSourcec(node.sources[i].sourceNode);
+}
+
+function getSourcec(node) {
+	var result = node.sourcec;
+	if (!result) return result;
+
+	if (!node.isChangeable())
+		recursiveResetSourcec(node);
+
+	return node.sourcec;
+}
+
 
 var evaluations = 0;
 MiddleNode.prototype = {
-	getSourcec: function() {
+	isChangeable: function() {
 		var node = this,
-			result = node.sourcec;
-		if (!result) return result;
+			result = false;
+		if (!node.sourcec) return result;
 
 		var osc = node.sourcec;
-		result = node.sourcec = 0;
-		for (var i=0, lnk; !result && i<node.sources.length; ++i)
-			if ((lnk = node.sources[i]) && lnk.sourceNode.getSourcec()>0)
-				++result;
-		assert(result<=osc, "Sourcec calculation should decrease it.");
-		return node.sourcec = result;
+		node.sourcec = 0;
+		for (var i=0; !result && i<node.sources.length; ++i)
+			result = node.sources[i].sourceNode.isChangeable();
+		node.sourcec = osc;
+		return result;
 	},
 	evaluate: function() {
 		var node = this;
@@ -86,7 +103,6 @@ MiddleNode.prototype = {
 		node.cse = NEXT_CYCLE; // recursion makes it CURRENT_CYCLE, then in loop we check to return DIRTY
 		for (var i=0; node.dirtins && i<node.sources.length; ++i) {
 			var lnk = node.sources[i];
-			if (!lnk) continue;
 
 			assert(!lnk.inactive, 'Source Link should not be inactive here.');
 			if (!valEqual(lnk.sourceNode.evaluate(), lnk.value) || node.cse != NEXT_CYCLE) {
@@ -98,9 +114,11 @@ MiddleNode.prototype = {
 		}
 		node.cse = CURRENT_CYCLE;
 
-		// if it didn't cause any evaluations, neither does it depend on a already evaluating node
-		// then any dirtins are because of dirtiness of old circular chains, and they start from here
-		if (node.dirtins && !node.getSourcec() && !evaluations) {
+		// any dirtiness is possibly because of circular chains
+		// we should recalculate sourcec and if it's zero and
+		// there was no evaluations down this node then
+		// this node should become clean
+		if (node.dirtins && !getSourcec(node) && !evaluations) {
 			eachTarget(node, function(lnk) {
 				if (lnk.isClean())
 					lnk.update(true);
@@ -120,7 +138,7 @@ MiddleNode.prototype = {
 
 		var dirts = node.targets[node.nodeId] && !valEqual(node.value, newValue) ? 1 : 0;
 		for (var i=0, lnk; i<node.sources.length; ++i)
-			if ((lnk = node.sources[i]) && lnk.sourceNode != node)
+			if ((lnk = node.sources[i]).sourceNode != node)
 				dirts += !lnk.isClean();
 		node.dirtins = dirts;
 
@@ -177,11 +195,8 @@ MiddleNode.prototype = {
 		node.cse = DIRTY;
 		node.dirtins = 0;
 
-		if (sources)
-		for (var i=sources.length-1; i>=0; --i) {
-			var lnk = sources[i];
-			if (lnk) unlinkTarget(lnk.sourceNode, node.nodeId);
-		}
+		for (var i=sources.length-1; i>=0; --i)
+			unlinkTarget(sources[i].sourceNode, node.nodeId);
 
 		// if onDisconnected returns truthy we will clear value (default behavior if nothing returned)
 		if (!isFalsy(callHandler(node, node.handlers.onDisconnected)))

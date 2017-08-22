@@ -172,23 +172,19 @@ describe("Lifecycle Handlers", function() {
 				});
 
 				expect(d()).to.equal(0);
-				x(1);
-				nx.signal();
+				x(1); nx.signal();
 
 				expect(d()).to.equal(1);
-				x(0);
-				nx.signal();
+				x(0); nx.signal();
 
 				expect(d()).to.equal(2);
 				nx.signal();
 
 				expect(d()).to.equal(4);
-				x(-8);
-				nx.signal();
+				x(-8); nx.signal();
 
 				expect(d()).to.equal(0);
-				x(0);
-				nx.signal();
+				x(0); nx.signal();
 
 				expect(d()).to.equal(0);
 				expect(aDisposed+bDisposed+cDisposed+dDisposed).to.equal(0);

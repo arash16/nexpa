@@ -7,7 +7,7 @@ LeafNode.prototype = {
 	sourcec: 1,
 	cse: MAX_CYCLE,
 	evaluating: false,
-	getSourcec: function() { return this.disposed ? 0 : 1; },
+	isChangeable: function() { return !this.disposed; },
 
 	evaluate: function() {
 		if (!this.disposed)
