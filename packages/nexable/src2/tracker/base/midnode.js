@@ -22,6 +22,7 @@ function getSourcec(node) {
 	var result = node.sourcec;
 	if (!result) return result;
 
+	console.log('getSourcec called');
 	if (!node.isChangeable())
 		recursiveResetSourcec(node);
 
@@ -33,10 +34,14 @@ var evaluations = 0;
 MiddleNode.prototype = {
 	isChangeable: function() {
 		var node = this,
-			result = false;
-		if (!node.sourcec) return result;
+			result = false,
+			osc = node.sourcec;
 
-		var osc = node.sourcec;
+		// isChangeable is only used to see if we have to recalculate sourcec
+		// if a node is evaluating, it's possible that it'll have some sourcec
+		if (node.evaluating) return true;
+		if (!osc) return result;
+
 		node.sourcec = 0;
 		for (var i=0; !result && i<node.sources.length; ++i)
 			result = node.sources[i].sourceNode.isChangeable();

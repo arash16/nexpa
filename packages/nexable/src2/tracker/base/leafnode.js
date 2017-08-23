@@ -6,6 +6,7 @@ function LeafNode(value, handlers) {
 LeafNode.prototype = {
 	sourcec: 1,
 	cse: MAX_CYCLE,
+	disposed: false,
 	evaluating: false,
 	isChangeable: function() { return !this.disposed; },
 

@@ -14,9 +14,11 @@ function lockNode(node) {
 }
 
 function eachTarget(node, cb) {
-	var tgs = node.targets;
-	for (var key in tgs) {
-		var lnk = tgs[key];
+	var tgs = node.targets,
+		keys= Object.keys(tgs);
+
+	for (var i=keys.length-1; i>=0; --i) {
+		var lnk = tgs[keys[i]];
 		if (!lnk.inactive)
 			cb(lnk);
 	}
@@ -36,8 +38,7 @@ function disposeTargets(node, dec) {
 			var target = lnk.targetNode;
 			if (target.cse == MAX_CYCLE) return;
 
-			if (dec && --target.sourcec)
-				target.sourcec = 0;
+			if (dec) --target.sourcec;
 
 			// if there's no active sources & there's no dirty input
 			if (!target.sourcec && !target.dirtins && !target.evaluating)

@@ -186,9 +186,11 @@ describe("Lifecycle Handlers", function() {
 				expect(d()).to.equal(0);
 				x(0); nx.signal();
 
-				expect(d()).to.equal(0);
-				expect(aDisposed+bDisposed+cDisposed+dDisposed).to.equal(0);
-				nx.signal();
+				for (var i=0; i<10; ++i) {
+					expect(d()).to.equal(0);
+					expect(aDisposed+bDisposed+cDisposed+dDisposed).to.equal(0);
+					nx.signal();
+				}
 
 				x.dispose();
 				expect(d()).to.equal(0);
