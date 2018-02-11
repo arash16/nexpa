@@ -2,15 +2,19 @@ BABEL := node_modules/.bin/babel
 MOCHA := node_modules/.bin/mocha
 MOCHA_PHANTOM := node_modules/.bin/mocha-phantomjs
 NYC := node_modules/.bin/nyc
-SRC := src2
+SRC := src3
+ROLLUP := node_modules/.bin/rollup
 
-build: build-node build-browser
+build: build-es6 build-umd
 
-build-node:
-	IS_NODE_MODULE=1 IS_SERVER=1 IS_CLIENT=0 IS_DEV=0 $(BABEL) -s true --source-root ../ $(SRC)/index.js -o lib/index.js
+build-es6:
+	BABEL_ENV=es6 $(BABEL) -s true $(SRC) -d ./es/
 
-build-browser:
-	IS_NODE_MODULE=0 IS_SERVER=0 IS_CLIENT=1 IS_DEV=0 $(BABEL) -s true $(SRC)/index.js -o dist/nexable.js
+build-umd:
+	BABEL_ENV=umd $(ROLLUP) -c
+
+clean:
+	rm -rf lib/* es/*
 
 test: test-node test-phantom
 
@@ -19,4 +23,3 @@ test-node:
 
 test-phantom:
 	$(MOCHA_PHANTOM) ./test/browser.html
-

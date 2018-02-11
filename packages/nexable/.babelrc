@@ -1,9 +1,38 @@
 {
-	"plugins": [
-		"merge",
-		"transform-es2015-arrow-functions",
-		"transform-es2015-block-scoping",
-		"constif",
-		"ceval"
-	]
+    "env": {
+        "es6": {
+            "plugins": [
+                "transform-class-properties",
+                "transform-es2015-arrow-functions",
+                "transform-es2015-block-scoping"
+            ],
+            "presets": [
+                [
+                    "env",
+                    {
+                        "modules": false
+                    }
+                ]
+            ]
+        },
+        "umd": {
+            "plugins": [
+                "transform-class-properties",
+                "transform-es2015-arrow-functions",
+                "transform-es2015-block-scoping",
+                "transform-remove-strict-mode"
+            ],
+            "presets": [
+                [
+                    "env",
+                    {
+                        "modules": false
+                    }
+                ],
+                [
+                    "es2015-rollup"
+                ]
+            ]
+        }
+    }
 }

@@ -1,3 +1,3 @@
 global.expect = require('chai').expect;
-global.nx = require('../lib');
+global.nx = require('../lib/nexable');
 
