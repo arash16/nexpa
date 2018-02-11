@@ -1,7 +1,8 @@
 import { isUndefined, isObject, assert } from 'nxutils/es/index'
 import valEqual from '../utils/valEqual'
 
-export default function getStateFactory(tracker) {
+export default function getStateFactory(wrapper) {
+    let tracker = wrapper.tracker;
     return function (value, handlers) {
         assert(isUndefined(handlers) || isObject(handlers), "Handlers should be a object.");
 

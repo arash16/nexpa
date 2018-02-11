@@ -1,12 +1,13 @@
-import getStateFactory from './state';
+import getStateFactory from './state'
 import getComputedFactory from './computed'
-import getStepperFactory from './stepper';
+import getStepperFactory from './stepper'
+import getArrayFactory from './array'
+import StateArray from '../array/state'
+import ComputedArray from '../array/computed'
 
 export default class Wrapper {
     constructor(tracker) {
-        this.state = getStateFactory(tracker);
-        this.computed = getComputedFactory(tracker);
-        this.stepper = getStepperFactory(this);
+        this.tracker = tracker;
 
         this.once = function (fn, store, id) {
             if (!store) return tracker.middle(fn).evaluate();
@@ -14,6 +15,13 @@ export default class Wrapper {
                     tracker.middle(fn, { onDisconnected: function () { delete store[id]; } }))
             ).evaluate();
         };
+
+        this.state = getStateFactory(this);
+        this.computed = getComputedFactory(this);
+        this.stepper = getStepperFactory(this);
+
+        this.array = getArrayFactory(this, StateArray);
+        this.computedArray = getArrayFactory(this, ComputedArray);
 
         let dummyCounter = this.state(0);
         this.repeatLater = function () {

@@ -1,6 +1,7 @@
 import { isFunc, isObject } from 'nxutils/es/index'
 
-export default function getComputedFactory(tracker) {
+export default function getComputedFactory(wrapper) {
+    let tracker = wrapper.tracker;
     function computed(readFn, writeFn, handlers, peekFn) {
         let write = isFunc(writeFn),
             node = tracker.middle(readFn, handlers),
