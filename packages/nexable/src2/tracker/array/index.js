@@ -1,7 +1,12 @@
-tracker.array = function() {
-	throw new Error('Not Implemented Yet.');
-};
+(function () {
+    import "./methods";
+    import "./state";
+    import "./mapped";
+    import "./sliced";
+    import "./filtered";
+    import "./computed";
+    import "./factory";
 
-tracker.computedArray = function() {
-	throw new Error('Not Implemented Yet.');
-};
+    tracker.array = MakeArray(StateArray);
+    tracker.computedArray = MakeArray(ComputedArray);
+})();
