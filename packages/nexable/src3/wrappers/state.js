@@ -1,4 +1,4 @@
-import { isUndefined, isObject, assert } from 'nxutils/es/index'
+import { isUndefined, isObject, assert } from 'nxutils'
 import valEqual from '../utils/valEqual'
 
 export default function getStateFactory(wrapper) {

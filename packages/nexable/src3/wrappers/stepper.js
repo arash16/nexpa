@@ -1,4 +1,4 @@
-import { isUndefined, assert } from 'nxutils/es/index'
+import { isUndefined, assert } from 'nxutils'
 
 
 export default function getStepperFactory(wrapper) {

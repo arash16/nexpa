@@ -1,4 +1,4 @@
-import { isFunc, isUndefined, unwrap } from 'nxutils/es/index'
+import { isFunc, isUndefined, unwrap } from 'nxutils'
 
 export default class BaseArray {
     constructor(wrapper) {

@@ -1,4 +1,4 @@
-import { isUndefined, assert } from 'nxutils/es/index'
+import { isUndefined, assert } from 'nxutils'
 import valEqual from '../utils/valEqual'
 
 const DIRTY = 0;

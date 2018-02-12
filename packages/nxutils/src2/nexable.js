@@ -1,4 +1,4 @@
-import { isNaN, isUndefined, isFunc } from './index';
+import { isUndefined, isFunc } from './is-x';
 
 export function isNexable(obj, type) {
     // W: writable
@@ -7,7 +7,7 @@ export function isNexable(obj, type) {
     // A: array
 
     if (isFunc(obj)) {
-        var isNx = obj.isNexable;
+        let isNx = obj.isNexable;
         if (isNx) return !type || isNx.indexOf(type) >= 0;
     }
     return false;
@@ -25,11 +25,11 @@ export function ifThen(test, thenResult, elseResult) {
 }
 
 export function toInteger(num, d) {
-    var r = parseInt(unwrap(num));
+    let r = parseInt(unwrap(num));
     return isNaN(r) && !isUndefined(d) ? d : r;
 }
 
 export function toFloat(num, d) {
-    var r = parseFloat(unwrap(num));
+    let r = parseFloat(unwrap(num));
     return isNaN(r) && !isUndefined(d) ? d : r;
 }

@@ -1,4 +1,4 @@
-import { assert } from 'nxutils/es/index'
+import { assert } from 'nxutils'
 import { BaseNode, isFalsy, MAX_CYCLE, DIRTY } from './node';
 import valEqual from '../utils/valEqual';
 

@@ -1,4 +1,4 @@
-import { isUndefined, isArray, toArray, toInteger } from 'nxutils/es/index';
+import { isUndefined, isArray, toArray, toInteger } from 'nxutils';
 import BaseArray from './base';
 
 export default class StateArray extends BaseArray {

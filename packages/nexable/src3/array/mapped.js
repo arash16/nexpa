@@ -1,4 +1,4 @@
-import { isUndefined, toInteger } from 'nxutils/es/index';
+import { isUndefined, toInteger } from 'nxutils';
 import BaseArray from './base';
 
 export default class MappedArray extends BaseArray {

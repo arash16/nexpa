@@ -1,4 +1,4 @@
-import { isFunc, toInteger } from 'nxutils/es/index';
+import { isFunc, toInteger } from 'nxutils';
 import BaseArray from './base';
 
 export default class SlicedArray extends BaseArray {

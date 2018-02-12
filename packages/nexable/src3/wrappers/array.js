@@ -1,4 +1,4 @@
-import { isArray, isFunc, isUndefined, isString, isNaN, isNexable, unwrap, toFloat, extend } from 'nxutils/es/index';
+import { isArray, isFunc, isUndefined, isString, isNaN, isNexable, unwrap, toFloat, extend } from 'nxutils';
 
 let ARRAY_METHODS = ['get', 'hasAtLeast', 'peek', /* 'size', 'clone', */
     'push', 'pop', 'delete', // TODO: 'shift', 'unshift',

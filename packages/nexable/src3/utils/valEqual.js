@@ -1,4 +1,4 @@
-import { isFunc, isVoid, isObject, isArray } from 'nxutils/es/index';
+import { isFunc, isVoid, isObject, isArray } from 'nxutils';
 
 function toPrimitiveValue(obj) {
     return obj instanceof Number ||

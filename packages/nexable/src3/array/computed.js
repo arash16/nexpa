@@ -1,4 +1,4 @@
-import { isFunc, isNexable, toInteger } from 'nxutils/es/index';
+import { isFunc, isNexable, toInteger } from 'nxutils';
 import BaseArray from './base';
 
 export default class ComputedArray extends BaseArray {

@@ -1,4 +1,4 @@
-import { isFunc, isUndefined, nullObject } from 'nxutils/es/index'
+import { isFunc, isUndefined, nullObject } from 'nxutils'
 import Link from './link'
 
 export const

@@ -1,4 +1,4 @@
-import { isFunc, isObject } from 'nxutils/es/index'
+import { isFunc, isObject } from 'nxutils'
 
 export default function getComputedFactory(wrapper) {
     let tracker = wrapper.tracker;

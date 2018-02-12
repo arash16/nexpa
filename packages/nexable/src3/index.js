@@ -1,9 +1,6 @@
-import { isFunc, isArray, isObject, isNumber, extend } from 'nxutils/es/index'
-
-import { isNexable, unwrap } from 'nxutils/es/nexable'
+import { isFunc, isArray, isObject, isNumber, extend, isNexable, unwrap } from 'nxutils'
 import Tracker from './tracker/index'
 import Wrapper from './wrappers/index'
-
 
 const nx = function Factory() {
     let tracker = new Tracker(),

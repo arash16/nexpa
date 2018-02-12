@@ -1,6 +1,15 @@
 {
 	"plugins": [
-		["constif", { isClient: true }],
-		"merge"
+		"transform-class-properties",
+		"transform-es2015-arrow-functions",
+		"transform-es2015-block-scoping"
+	],
+	"presets": [
+		[
+			"env",
+			{
+				"modules": false
+			}
+		]
 	]
 }
