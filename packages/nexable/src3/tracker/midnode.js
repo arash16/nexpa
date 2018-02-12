@@ -1,6 +1,5 @@
-import { assert } from 'nxutils'
-import { BaseNode, isFalsy, MAX_CYCLE, DIRTY } from './node';
-import valEqual from '../utils/valEqual';
+import { assert, valEqual } from 'nxutils'
+import { BaseNode, isFalsy, MAX_CYCLE, DIRTY } from './node'
 
 export default class MiddleNode extends BaseNode {
     constructor(tracker, read, handlers) {

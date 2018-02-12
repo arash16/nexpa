@@ -39,7 +39,7 @@ export default class SlicedArray extends BaseArray {
 
             // sign(s) == sign(e) && s!=0 && e!=0
             if (s * e > 0) {
-                let n = max(abs(s), abs(e), e - s);
+                let n = Math.max(Math.abs(s), Math.abs(e), e - s);
                 if (base.hasAtLeast(n)) return e - s;
             }
 

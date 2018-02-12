@@ -1,4 +1,4 @@
-import { isFunc, isArray, isObject, isNumber, extend, isNexable, unwrap } from 'nxutils'
+import { isFunc, isArray, isObject, isNumber, extend, isNexable, unwrap, slice } from 'nxutils'
 import Tracker from './tracker/index'
 import Wrapper from './wrappers/index'
 
@@ -31,7 +31,7 @@ const nx = function Factory() {
         now: wrapper.now(),
         //animated: animated,
 
-        run: fn => _once(fn),
+        run: fn => wrapper.once(fn),
 
         computed(opts) { return wrapper.computed.apply(wrapper, arguments); },
         state() { return wrapper.state.apply(wrapper, arguments); },

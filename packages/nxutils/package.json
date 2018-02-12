@@ -6,16 +6,8 @@
   "license": "Apache-2.0",
   "main": "lib/index.js",
   "module": "lib/index.mjs",
-  "includable": {
-    "": "src/index.js",
-    "calendar": "src/calendar/index.js",
-    "generic": {
-      "base": "src/generic/base.js",
-      "is-x": "src/generic/is-x.js"
-    }
-  },
   "scripts": {
-    "build": "babel src/index.js -o lib/index.js"
+    "build": "rollup -c"
   },
   "repository": "https://github.com/arash16/nexpa/tree/master/packages/nxutils",
   "keywords": [
@@ -26,7 +18,6 @@
   ],
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-es2015-arrow-functions": "^6.22.0",
     "babel-plugin-transform-es2015-block-scoping": "^6.26.0",
     "babel-preset-env": "^1.6.1",

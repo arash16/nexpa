@@ -47,3 +47,62 @@ export function defaults(target) {
         });
     return result;
 }
+
+
+export function deepClone(obj) {
+    let res = _deepClone(obj),
+        ID_FIELD = '__^*',
+        lastId = 0,
+        fin = [],
+        cls = {};
+    fin.forEach(function (o) { delete o[ID_FIELD]; });
+    return res;
+
+    function _deepClone(obj) {
+        if (isObject(obj)) {
+            if (!isArray(obj)) {
+                if (obj instanceof Object || isPromiseLike(obj) || isFunc(obj.constructor))
+                    return obj;
+            }
+
+            let id = obj[ID_FIELD];
+            if (id && cls[id] && cls[id].in === obj) {
+                if (cls[id].out) return cls[id].out;
+
+                // circular reference from prototype property to object
+                return cls[id].out = {};
+            }
+
+            id = obj[ID_FIELD] = ++lastId;
+            cls[id] = { in: obj };
+            fin.push(obj);
+
+            if (isArray(obj)) {
+                let res = cls[id].out = [];
+
+                for (let i = 0; i < obj.length; i++)
+                    res[i] = _deepClone(obj[i]);
+
+                return res;
+            }
+
+            // Object.keys -> enumerable
+            // Object.getOwnPropertyNames -> non-enumerable
+
+            let props = Object.getOwnPropertyNames(obj),
+                proto = _deepClone(Object.getPrototypeOf(obj)),
+                res;
+
+            if (cls[id].out) Object.setPrototypeOf(res = cls[id].out, proto);
+            else res = cls[id].out = Object.create(proto);
+
+            for (let i = 0, p; p = props[i]; i++)
+                if (p !== ID_FIELD)
+                    res[p] = _deepClone(obj[p]);
+
+            return res;
+        }
+
+        return obj;
+    }
+}

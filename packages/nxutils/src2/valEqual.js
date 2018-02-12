@@ -1,4 +1,5 @@
-import { isFunc, isVoid, isObject, isArray } from 'nxutils';
+import { isFunc, isVoid, isObject, isArray } from './is-x'
+import { keys } from './objects'
 
 function toPrimitiveValue(obj) {
     return obj instanceof Number ||
@@ -7,7 +8,7 @@ function toPrimitiveValue(obj) {
         ? obj.valueOf() : obj;
 }
 
-export default function valEqual(oValue, nValue, update) {
+export function valEqual(oValue, nValue, update) {
     let oldValue = toPrimitiveValue(oValue),
         newValue = toPrimitiveValue(nValue);
 
@@ -62,11 +63,11 @@ export default function valEqual(oValue, nValue, update) {
     }
 
     if (update === 'deep' && isObject(oldValue) && isObject(newValue)) {
-        let oKeys = getObjectKeys(oldValue),
+        let oKeys = keys(oldValue),
             kLen = oKeys.length,
             pairs;
 
-        if (kLen !== getObjectKeys(newValue).length)
+        if (kLen !== keys(newValue).length)
             return false;
 
         for (let i = 0; i < kLen; i++) {

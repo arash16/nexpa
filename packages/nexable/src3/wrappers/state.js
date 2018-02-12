@@ -1,5 +1,4 @@
-import { isUndefined, isObject, assert } from 'nxutils'
-import valEqual from '../utils/valEqual'
+import { isUndefined, isObject, assert, valEqual } from 'nxutils'
 
 export default function getStateFactory(wrapper) {
     let tracker = wrapper.tracker;

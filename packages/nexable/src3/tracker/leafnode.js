@@ -1,6 +1,5 @@
-import { assert } from 'nxutils'
+import { assert, valEqual } from 'nxutils'
 import { BaseNode, isFalsy, MAX_CYCLE } from './node'
-import valEqual from '../utils/valEqual'
 
 export default class LeafNode extends BaseNode {
     sourcec = 1;

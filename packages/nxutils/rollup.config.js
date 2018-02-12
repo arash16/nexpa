@@ -5,7 +5,6 @@ export default {
     output: {
         file: 'lib/index.mjs',
         format: 'es',
-        // name: 'nx',
         sourcemap: true,
         strict: false
     },

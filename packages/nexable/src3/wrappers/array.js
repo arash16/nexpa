@@ -57,7 +57,7 @@ export default function getArrayFactory(wrapper, ctor) {
         let a = Object.create(ctor.prototype);
         ctor.apply(a, args);
 
-        let nxArray = nx(() => a.nexable.clone());
+        let nxArray = wrapper.computed(() => a.nexable.clone());
         return extendArray(function (index, value) {
             if (!arguments.length) return nxArray();
 
