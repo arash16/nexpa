@@ -30,7 +30,8 @@ function extendArray(arr, a, w) {
         return result;
     });
 
-    arr.sum = a.reducer(function (x, y) { return toFloat(x) + toFloat(y); }, 0);
+    arr.reducer = (callback, initial) => w.computed(() => arr.clone().reduce(callback, initial));
+    arr.sum = arr.reducer((x, y) => toFloat(x) + toFloat(y), 0);
 
     let joiners = {};
     arr.join = function (separator) {

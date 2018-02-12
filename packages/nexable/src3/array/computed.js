@@ -14,7 +14,7 @@ export default class ComputedArray extends BaseArray {
     }
 
     ensure(index) {
-        return this._wrapper.once(this._itemRead, this._items, index);
+        return this._wrapper.once(() => this._itemRead(index), this._items, index);
     }
 
     hasAtLeast(n) {
