@@ -44,7 +44,8 @@ class Nexpa {
 }
 
 function renderElement(nxElement) {
-    nxElement = unwrap(nxElement);
+    while (isFunc(nxElement))
+        nxElement = nxElement();
 
     if (nxElement && isFunc(nxElement.render))
         return renderElement(nxElement.render());
