@@ -1,4 +1,4 @@
-export const global = (0, eval)('this');
+export const global = function() { return eval; }()('this');
 
 export function isNull(o) { return o === null; }
 export function isUndefined(u) { return u === undefined; }
