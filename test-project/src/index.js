@@ -1,10 +1,8 @@
 import nx from 'nexable';
-import Nexpa from 'nexpa';
+import nexpa from 'nexpa';
+nexpa.init(nxShell);
 
-let spa = new Nexpa();
-let el = spa.nxDom.createElement.bind(spa.nxDom);
-spa.init(nxShell);
-spa.document.body.className = '';
+nexpa.document.body.className = '';
 
 
 function nxShell() {
@@ -29,3 +27,5 @@ function nxShell() {
         <div style={style}></div>
     </div>;
 }
+
+// TODO: el -> nexpa.createElement

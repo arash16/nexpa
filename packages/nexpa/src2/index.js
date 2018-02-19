@@ -3,11 +3,15 @@ import nx from 'nexable'
 import NXDom from './nxDom'
 import { nxWindow } from './window'
 
-export default class Nexpa {
+class Nexpa {
     constructor(document) {
         this.nxDom = new NXDom();
         this.window = nxWindow;
         this.document = document || global.document;
+
+        this.createElement = this.nxDom.createElement.bind(this.nxDom);
+        this.defineComponent = this.nxDom.createElement.bind(this.nxDom);
+        this.defineBehavior = this.nxDom.createElement.bind(this.nxDom);
     }
 
     init(renderFn, container) {
@@ -39,18 +43,6 @@ export default class Nexpa {
             return rootNode;
         });
     }
-
-    createElement(tag, props, children) {
-        return this.nxDom.createElement(tag, props, children);
-    }
-
-    defineComponent(name, ctor) {
-        return this.nxDom.defineComponent(name, ctor);
-    }
-
-    defineBehavior(name, handler) {
-        return this.nxDom.defineBehavior(name, handler);
-    }
 }
 
 function renderElement(nxElement) {
@@ -62,4 +54,8 @@ function renderElement(nxElement) {
     throw new TypeError('Invalid child.');
 }
 
-// plugins
+const nexpa = new Nexpa();
+nexpa.Nexpa = Nexpa;
+export default nexpa;
+
+// TODO: plugins

@@ -1,5 +1,4 @@
 const nxIdentifier = 'nx';
-const elConstructor = 'el';
 
 export default function({ traverse, types: t }) {
 
@@ -174,7 +173,7 @@ export default function({ traverse, types: t }) {
 					// TODO: join consecutive StringLiterals
 					childs = childs.length && t.arrayExpression(childs);
 
-					var callee = t.identifier(elConstructor),
+					var callee = t.memberExpression(t.identifier('nexpa'), t.identifier('createElement')),
 					    args = [];
 
 					/*
