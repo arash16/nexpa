@@ -94,7 +94,7 @@ export default function({ traverse, types: t }) {
 			return isStatic(exppath) ? node.expression :
 				t.callExpression(
 					t.identifier(nxIdentifier),
-					[t.functionExpression(null, [],
+					[t.arrowFunctionExpression([],
 						t.blockStatement([t.returnStatement(node.expression)])
 					)]
 				);
