@@ -1,0 +1,19 @@
+{
+    "plugins": [
+        "transform-class-properties",
+        "transform-es2015-arrow-functions",
+        "transform-es2015-block-scoping",
+        "jsnx"
+    ],
+    "presets": [
+        [
+            "env",
+            {
+                "modules": false
+            }
+        ],
+        [
+            "es2015-rollup"
+        ]
+    ]
+}
