@@ -95,7 +95,7 @@ export default class Tracker {
         let j = 0;
         for (let i = 0, h; i < handlers.length; ++i)
             if (h = handlers[i]) {
-                this.activeNode = this.rootNode || true;
+                this.activeNode = this.rootNode || null;
                 handlers[j++] = h;
                 h();
             }

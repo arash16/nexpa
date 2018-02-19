@@ -28,7 +28,7 @@ const nx = function Factory() {
     return extend(nx, {
         create() { return Factory() },
 
-        now: wrapper.now(),
+        now: wrapper.now,
         //animated: animated,
 
         run: fn => wrapper.once(fn),
@@ -41,8 +41,8 @@ const nx = function Factory() {
         signal() { tracker.signal(); },
         beforeSignal(callback) { return tracker.beforeSignal(callback); },
         onSignal(callback) { return tracker.onSignal(callback); },
-        finally(callback) { return tracker.finally(callback); },
-        afterNext(callback) { return nx.beforeSignal(() => nx.finally(callback)); },
+        afterSignal(callback) { return tracker.afterSignal(callback); },
+        afterNext(callback) { return nx.beforeSignal(() => nx.afterSignal(callback)); },
 
         repeatLater(immediate) {
             wrapper.repeatLater();

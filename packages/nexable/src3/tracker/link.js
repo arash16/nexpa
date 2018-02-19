@@ -27,6 +27,7 @@ export default class Link {
         // link's scycle is definitely changed that we are here in this function,
         // so it's just a matter of direction (dirty to clean, or clean to dirty)
         target.dirtins += (isUndefined(cln) ? link.isClean() : cln) ? -1 : 1;
+        if (target.dirtins > target.sources.length) target.dirtins = target.sources.length;
         assert(target.dirtins >= 0 && target.dirtins <= target.sources.length, 'Dirtins out of range.');
 
 

@@ -206,7 +206,7 @@ function getSourcec(node) {
     let result = node.sourcec;
     if (!result) return result;
 
-    console.log('getSourcec called');
+    // console.log('getSourcec called');
     if (!node.isChangeable())
         recursiveResetSourcec(node);
 
