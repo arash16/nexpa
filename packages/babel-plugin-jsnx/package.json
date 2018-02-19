@@ -16,6 +16,7 @@
     "reative"
   ],
   "devDependencies": {
+    "babel-cli": "*",
     "babel-preset-env": "*"
   }
 }

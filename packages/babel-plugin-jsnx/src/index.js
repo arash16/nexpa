@@ -177,11 +177,12 @@ export default function({ traverse, types: t }) {
 					var callee = t.identifier(elConstructor),
 					    args = [];
 
+					/*
 					if (element.type == 'StringLiteral' && shortHandedTags[element.value]) {
 					    if (element.value !== 'div')
 					    	callee = t.memberExpression(callee, t.identifier('_' + element.value));
 					}
-					else args.push(element);
+					else */ args.push(element);
 
 					if (props) args.push(props);
 					if (childs) args.push(childs);
