@@ -14,7 +14,7 @@ class Nexpa {
         this.defineBehavior = this.nxDom.createElement.bind(this.nxDom);
     }
 
-    init(renderFn, container) {
+    render(rootElement, container) {
         if (isString(container))
             container = this.document.querySelector(container);
 
@@ -22,18 +22,16 @@ class Nexpa {
             container = this.document.body;
 
         return nx.run(() => {
-            let tree = this.nxDom.createElement([renderFn()]),
-                rootNode = renderElement(tree);
-
+            let rootNode = renderElement(rootElement);
             container.appendChild(rootNode);
-            // tree.emit('attached');
+            // rootElement.emit('attached');
 
             nextFrame(function s() {
                 nx.signal();
                 nextFrame(s);
             });
             nx.onSignal(() => {
-                let newRoot = renderElement(tree);
+                let newRoot = renderElement(rootElement);
                 if (newRoot !== rootNode) {
                     container.replaceChild(newRoot, rootNode);
                     rootNode = newRoot;
@@ -49,9 +47,9 @@ function renderElement(nxElement) {
     nxElement = unwrap(nxElement);
 
     if (nxElement && isFunc(nxElement.render))
-        return nxElement.render();
+        return renderElement(nxElement.render());
 
-    throw new TypeError('Invalid child.');
+    return nxElement;
 }
 
 const nexpa = new Nexpa();
