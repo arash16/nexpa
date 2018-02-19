@@ -1,42 +1,40 @@
 {
-  "name": "nexpa",
-  "version": "0.0.1",
-  "description": "Nexpa is the Next Generation SPA Framework.",
-  "author": "Arash Shakery <arash.shakery@gmail.com> (arash16.com)",
-  "license": "Apache-2.0",
-  "main": "lib/index.js",
-  "includable": {
-  	"": "src/index.js"
-  },
-  "scripts": {
-    "build": "make build",
-    "test": "make test"
-  },
-  "repository": "https://github.com/arash16/nexpa",
-  "keywords": [
-    "nexable",
-    "nexpa",
-    "spa",
-    "react",
-    "reactive",
-    "functional",
-    "frp"
-  ],
-  "dependencies": {
-    "nxutils": "*",
-    "nexable": "*"
-  },
-  "devDependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-plugin-ceval": "*",
-    "babel-plugin-constif": "*",
-    "babel-plugin-merge": "*",
-    "babel-plugin-transform-es2015-arrow-functions": "^6.22.0",
-    "babel-plugin-transform-es2015-block-scoping": "^6.24.1",
-    "chai": "^3.5.0",
-    "istanbul": "^0.4.5",
-    "mocha": "^3.4.1",
-    "mocha-phantomjs": "^4.1.0",
-    "nyc": "^10.3.2"
-  }
+    "name": "nexpa",
+    "version": "0.0.1",
+    "description": "Nexpa is the Next Generation SPA Framework.",
+    "author": "Arash Shakery <arash.shakery@gmail.com> (arash16.com)",
+    "license": "Apache-2.0",
+    "main": "lib/index.js",
+    "module": "es/index.js",
+    "scripts": {
+        "build": "make build",
+        "test": "make test"
+    },
+    "repository": "https://github.com/arash16/nexpa",
+    "keywords": [
+        "nexable",
+        "nexpa",
+        "spa",
+        "react",
+        "reactive",
+        "functional",
+        "frp"
+    ],
+    "dependencies": {},
+    "devDependencies": {
+        "babel-cli": "^6.24.1",
+        "babel-plugin-transform-class-properties": "^6.24.1",
+        "babel-plugin-transform-es2015-arrow-functions": "^6.22.0",
+        "babel-plugin-transform-es2015-block-scoping": "^6.24.1",
+        "babel-preset-env": "^1.6.1",
+        "babel-preset-es2015-rollup": "^3.0.0",
+        "chai": "^3.5.0",
+        "istanbul": "^0.4.5",
+        "mocha": "^3.4.1",
+        "mocha-phantomjs": "^4.1.0",
+        "nyc": "^10.3.2",
+        "rollup": "^0.56.1",
+        "rollup-plugin-babel": "^3.0.3",
+        "rollup-plugin-node-resolve": "^3.0.3"
+    }
 }
