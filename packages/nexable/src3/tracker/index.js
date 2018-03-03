@@ -31,6 +31,14 @@ export default class Tracker {
         this.gc.handler(true);
     }
 
+    runDisconnected(fn) {
+        let outerNode = this.activeNode;
+        this.activeNode = null;
+        let result = fn();
+        this.activeNode = outerNode;
+        return result;
+    }
+
     signal() {
         if (this.isSignaling) return this.currentCycle;
         ++this.currentCycle;
