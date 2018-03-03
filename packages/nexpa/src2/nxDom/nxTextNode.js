@@ -25,6 +25,11 @@ export default function NXTextNode(eid, text) {
 }
 
 extend(NXTextNode.prototype, {
+    componentWillMount() {},
+    componentDidMount() {},
+    componentWillUnmount() {},
+    componentDidUnmount() {},
+
     isEqualTo: function (other) {
         if (other instanceof nxTextNode)
             return this.text === other.text;

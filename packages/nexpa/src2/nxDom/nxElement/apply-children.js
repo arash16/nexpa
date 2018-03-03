@@ -2,27 +2,29 @@ import nx from 'nexable'
 import { unwrap } from 'nxutils'
 
 export default function applyChildren(proxy, children) {
-    var oldKeysInd, oldLen;
+    let oldKeysInd, oldLen;
 
     nx.run(function () {
-        var newItems = unwrap(children),
+        let newItems = unwrap(children),
             patcher = proxy.childsPatcher(newItems),
             newLen = newItems.length,
             newKeysInd = {},
-            newChilds = [];
+            newChilds = [],
+            oldIndexOf,
+            newIndexOf;
 
         if (oldKeysInd) {
-            var oldIndexOf = {},
-                newIndexOf = {};
+            oldIndexOf = {};
+            newIndexOf = {};
         }
 
-        for (var newInd = 0, item; item = newItems[newInd]; newInd++) {
-            var child = item.render();
+        for (let newInd = 0, item; item = newItems[newInd]; newInd++) {
+            let child = item.render();
             newKeysInd[item.id] = newInd;
             newChilds.push(child);
 
             if (oldKeysInd) {
-                var oldInd = oldKeysInd[item.id];
+                let oldInd = oldKeysInd[item.id];
                 if (oldInd >= 0) {
                     oldIndexOf[newInd] = oldInd;
                     newIndexOf[oldInd] = newInd;
@@ -32,25 +34,26 @@ export default function applyChildren(proxy, children) {
         }
 
         if (oldKeysInd) {
-            for (var i = 0, j = 0; i < oldLen;) {
-                var ni = (newIndexOf[i] + 1 | 0) - 1, // newIndex or -1
+            let j = 0;
+            for (let i = 0; i < oldLen;) {
+                let ni = (newIndexOf[i] + 1 | 0) - 1, // newIndex or -1
                     oj = (oldIndexOf[j] + 1 | 0) - 1; // oldIndex or -1
 
-                if (oj == i) i++, j++;
+                if (oj === i) i++, j++;
                 else if (ni < 0) {
+                    let m = 1;
                     if (j < newLen) {
                         // check at most 5 future items, if collision exists -> replaceChild
-                        var m = oj > i + 1 ? min(i + 6, oj) : 0;
-                        for (var k = i + 1; k < m; k++)
+                        m = oj > i + 1 ? Math.min(i + 6, oj) : 0;
+                        for (let k = i + 1; k < m; k++)
                             newIndexOf[k] > j && (m = 0);
 
                         !m && patcher.replaceElem(j++, i++);
                     }
-                    else m = 1;
                     m && patcher.removeElem(i++);
                 }
                 else if (ni < j) i++;
-                else if (i > 0 && oj == i - 1) j++;
+                else if (i > 0 && oj === i - 1) j++;
                 else if (oj < i || ni - j < oj - i)
                     patcher.insertElem(j++, i);
                 else i++; // skip i

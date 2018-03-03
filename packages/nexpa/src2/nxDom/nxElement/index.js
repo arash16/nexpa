@@ -1,6 +1,7 @@
-import { extend, isString, isArray, isNexable } from 'nxutils'
+import { extend, isString, isArray, isNexable, addListener, removeListener } from 'nxutils'
 import nx from 'nexable'
 import applyChildren from './apply-children'
+import childrenManager from './children-manager'
 import applyProperties from './apply-properties'
 import DomNodeProxy from '../patcher'
 import {
@@ -11,14 +12,13 @@ import {
     scrollToVisible
 } from '../css'
 
-
 export default function NXElement(eid, nodeName, properties, childs, namespace) {
     let elem = this;
     elem.id = eid;
     elem.nodeName = nodeName;
     elem.namespace = namespace;
     elem.properties = properties || {};
-    elem.childs = childs;
+    elem.childs = childrenManager(childs);
 
     elem.parent = nx();
     elem.domNode = nx();
@@ -35,8 +35,10 @@ export default function NXElement(eid, nodeName, properties, childs, namespace) 
 
     elem.rendered = false;
     elem.render = nx.computed({
-        read: function () {
-            let node = isString(elem.namespace) ? document.createElementNS(elem.namespace, elem.nodeName) : document.createElement(elem.nodeName);
+        read() {
+            let node = isString(elem.namespace)
+                ? document.createElementNS(elem.namespace, elem.nodeName)
+                : document.createElement(elem.nodeName);
 
             let proxy = new DomNodeProxy(elem, node);
             applyChildren(proxy, elem.childs, elem);
@@ -52,7 +54,7 @@ export default function NXElement(eid, nodeName, properties, childs, namespace) 
 
             return node;
         },
-        dispose: function (node) {
+        onDisconnected() {
             elem.domNode(undefined);
             elem.rendered = false;
             let evs = elem.eventListeners;
@@ -63,14 +65,14 @@ export default function NXElement(eid, nodeName, properties, childs, namespace) 
 
     let offsetsNx = nx();
     elem.absoluteOffsets = nx.computed({
-        read: function () {
+        read() {
             addListener(global, 'resize', offsetsChangeHandler);
             addListener(global, 'scroll', offsetsChangeHandler);
             if (!offsetsChangeHandler())
                 return nx.repeatLater() || {};
             return offsetsNx();
         },
-        dispose: function () {
+        onDisconnected() {
             removeListener(global, 'resize', offsetsChangeHandler);
             removeListener(global, 'scroll', offsetsChangeHandler);
         }
@@ -84,10 +86,15 @@ export default function NXElement(eid, nodeName, properties, childs, namespace) 
 }
 
 extend(NXElement.prototype, {
-    getNode: function () {
+    componentWillMount() {},
+    componentDidMount() {},
+    componentWillUnmount() {},
+    componentDidUnmount() {},
+
+    getNode() {
         return this.render.peek();
     },
-    focus: function () {
+    focus() {
         let node = this.getNode();
         if (node) node.focus();
     },
@@ -96,10 +103,10 @@ extend(NXElement.prototype, {
     getOffsetSizes: getOffsetSizes,
     getViewportOffsets: getViewportOffsets,
     getAbsoluteOffsets: getAbsoluteOffsets,
-    getStyles: function () {
+    getStyles() {
         return getComputedStyles(this, true);
     },
-    getStyle: function (property, def) {
+    getStyle(property, def) {
         let that = this,
             cStyles = that.computedStyles;
 
@@ -121,7 +128,7 @@ extend(NXElement.prototype, {
                     let nodeStyle = that.domNode().style,
                         preStyles = nodeStyle.cssText;
 
-                    nodeStyle.cssText = 'transitionDuration:0ms;' + (cs.display == 'none' ? 'display:' + getDisplayType(that) : '');
+                    nodeStyle.cssText = 'transitionDuration:0ms;' + (cs.display === 'none' ? 'display:' + getDisplayType(that) : '');
                     let result = isArray(p) ? p.map(x => roundCssValue(cs[x])) : roundCssValue(cs[p]);
                     nodeStyle.cssText = preStyles;
                     cStyles.rev();
@@ -133,7 +140,7 @@ extend(NXElement.prototype, {
 
         return sValue();
     },
-    addListener: function (eventName, handler, capture) {
+    addListener(eventName, handler, capture) {
         let disposed, lastBinded,
             listeners = this.eventListeners = this.eventListeners || [];
 

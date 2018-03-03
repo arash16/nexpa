@@ -110,9 +110,9 @@ export default class NXDom {
         return !behaviors ? identity : elem => applyBehaviors(elem, behaviors);
     }
 
-    _parseChildren(children, custom) {
+    _parseChildren(children, skipWhites) {
         let nxItems = [],
-            result = children ? this._parse(children, custom, nxItems) : [];
+            result = children ? this._parse(children, skipWhites, nxItems) : [];
 
         if (nxItems.length) return childrenProxy(result, nxItems);
         result.count = () => result.length;
@@ -120,12 +120,12 @@ export default class NXDom {
         return result;
     }
 
-    _parse(inp, custom, nxItems, res) {
+    _parse(inp, skipWhites, nxItems, res) {
         let result = res || [];
 
         if (!nxItems) inp = unwrap(inp);
         else if (isNexable(inp)) {
-            let ind = result.push(nx(() => this._parse(inp, custom)));
+            let ind = result.push(nx(() => this._parse(inp, skipWhites)));
             nxItems.push(ind - 1);
             return result;
         }
@@ -134,11 +134,11 @@ export default class NXDom {
 
         else if (isArray(inp))
             for (let i = 0; i < inp.length; i++) {
-                let ch = custom ? inp[i] : inp[i] || ' ';
-                if (ch) this._parse(ch, custom, nxItems, result);
+                let ch = skipWhites ? inp[i] : inp[i] || ' ';
+                if (ch) this._parse(ch, skipWhites, nxItems, result);
             }
 
-        else if (custom || isFunc(inp.render))
+        else if (skipWhites || isFunc(inp.render))
             result.push(inp);
 
         else if (isValue(inp))
