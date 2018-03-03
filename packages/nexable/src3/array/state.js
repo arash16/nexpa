@@ -12,6 +12,14 @@ export default class StateArray extends BaseArray {
         else this.assign(toArray(arr));
     }
 
+    clonePeek() {
+        let a = new Array(this._size.peek());
+        for (let i=0; i<a.length; ++i)
+            if (this._items[i])
+                a[i] = this._items[i].value;
+        return a;
+    }
+
     ensure(index, value) {
         return this._items[index] = this._items[index] || this._wrapper.tracker.leaf(value);
     }
@@ -44,14 +52,14 @@ export default class StateArray extends BaseArray {
     set(index, value) {
         let items = this._items;
 
-        index = toInteger(index);
+        index = +index;
         if (isFinite(index) && index >= 0) {
             if (index >= items.length)
                 this.size(index + 1);
 
             if (items[index]) {
                 // do not keep reference to useless undefined items
-                if (isUndefined(value) && !items[index].targetsCount)
+                if (isUndefined(value) && !items[index].targetc)
                     delete items[index];
                 else items[index].update(value);
             }
@@ -62,10 +70,9 @@ export default class StateArray extends BaseArray {
     }
 
     delete(index) {
-        index = toInteger(index);
         let item = this._items[index];
         if (item) {
-            if (item.targetsCount)
+            if (item.targetc)
                 item.update(undefined);
             else
                 delete this._items[index];
@@ -81,7 +88,7 @@ export default class StateArray extends BaseArray {
         // since item is getting removed,
         // we should use peek to prevent linking
         let item = this._items.pop(),
-            result = item.cVal;
+            result = item.value;
 
         item.update(undefined);
 
@@ -99,7 +106,7 @@ export default class StateArray extends BaseArray {
             else if (!isUndefined(arr[i]))
                 this.ensure(i, arr[i]);
 
-            else if (this._items[i] && !this._items[i].targetsCount)
+            else if (this._items[i] && !this._items[i].targetc)
                 delete this._items[i];
         }
     }

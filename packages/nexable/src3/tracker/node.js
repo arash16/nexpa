@@ -15,8 +15,8 @@ export class BaseNode {
         this.nodeId = ++tracker.lastNodeId;
         this.handlers = handlers || {};
 
-        this.targets = nullObject(); // todo: use null object
-        this.targetc = 0;
+        this.targets = nullObject();
+        this.targetc = 0; // targets count
     }
 
     lock() {
@@ -52,7 +52,7 @@ export class BaseNode {
     }
 
     callHandler(h) {
-        return isFunc(h) ? h(this) : h;
+        return isFunc(h) ? h(this.value) : h;
     }
 
     linkTarget(dst) {

@@ -8,7 +8,7 @@ export default class MiddleNode extends BaseNode {
         this.read = read;
         this.cse = // DIRTY;
         this.dirtins =
-        this.sourcec = 0;
+        this.sourcec = 0; // [total] changeable leaf sources
         this.sources = [];
         this.evaluating = false;
     }

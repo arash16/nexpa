@@ -20,7 +20,7 @@ function extendArray(arr, a, w) {
 
     arr.size = w.computed(function () { return a.size(); });
 
-    arr.clone = w.computed(function () {
+    function cloneFn() {
         let result = new Array(a.size());
         for (let i = 0; i < result.length; i++) {
             let item = a.get(i);
@@ -28,7 +28,8 @@ function extendArray(arr, a, w) {
                 result[i] = item;
         }
         return result;
-    });
+    }
+    arr.clone = w.computed(cloneFn);
 
     arr.reducer = (callback, initial) => w.computed(() => arr.clone().reduce(callback, initial));
     arr.sum = arr.reducer((x, y) => toFloat(x) + toFloat(y), 0);
@@ -41,6 +42,20 @@ function extendArray(arr, a, w) {
         return w.once(function () {
             return a.reducer(function (x, y) { return x + separator + y; });
         }, joiners, separator)();
+    };
+
+    // TODO: maybe optimize it a little bit ?!
+    if (a.assign)
+    arr.splice = function () {
+        let b = a.clonePeek();
+
+        let args = [];
+        for (let i=0; i<arguments.length; ++i)
+            args.push(arguments[i]);
+        let result = b.splice.apply(b, args);
+
+        a.assign(b);
+        return result;
     };
 
     return arr;

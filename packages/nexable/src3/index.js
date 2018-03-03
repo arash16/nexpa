@@ -32,6 +32,7 @@ const nx = function Factory() {
         //animated: animated,
 
         run: fn => wrapper.once(fn),
+        runDisconnected(fn) { return tracker.runDisconnected(fn) },
 
         computed(opts) { return wrapper.computed.apply(wrapper, arguments); },
         state() { return wrapper.state.apply(wrapper, arguments); },
