@@ -3,7 +3,7 @@ import nx from 'nexable'
 import applyChildren from './apply-children'
 import childrenManager from './children-manager'
 import applyProperties from './apply-properties'
-import DomNodeProxy from '../patcher'
+import DomNodeProxy from './patcher'
 import {
     getComputedStyles, getDisplayType, roundCssValue,
     vendorStyleProperties,

@@ -1,5 +1,5 @@
 import { extend, isUndefined, isArray, isVoid } from 'nxutils'
-import { vendorStyleProperty } from '../css'
+import { vendorStyleProperty } from '../../css'
 import ChildsPatcher from './childs-patcher'
 
 export default function DomNodeProxy(element, node) {
