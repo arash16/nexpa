@@ -4,7 +4,6 @@
   "description": "Utility libraries for nexpa.",
   "author": "Arash Shakery <arash.shakery@gmail.com> (arash16.com)",
   "license": "Apache-2.0",
-  "main": "lib/index.js",
   "module": "lib/index.mjs",
   "scripts": {
     "build": "rollup -c"
