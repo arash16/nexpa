@@ -17,6 +17,14 @@ export default function ChildsPatcher(proxy, newItems, oldPatcher) {
     this.patches = [];
 }
 
+
+/*
+componentWillMount()
+componentDidMount()
+componentWillUnmount()
+componentDidUnmount()
+*/
+
 extend(ChildsPatcher.prototype, {
     insertElem: function (ind, nextSiblingOldInd) {
         this.items[ind].parent(this.proxy._element);

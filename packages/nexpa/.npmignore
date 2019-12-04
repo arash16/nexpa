@@ -18,3 +18,5 @@ coverage
 .lock-wscript
 .node_repl_history
 
+src
+src2
