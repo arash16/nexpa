@@ -61,6 +61,9 @@ export default class Tracker {
             this._immediateRecycleRequested = 0;
         }
 
+        if (!this._immediateRecycleRequested)
+            this.gc.handler(true);
+
         return this.currentCycle;
     }
 

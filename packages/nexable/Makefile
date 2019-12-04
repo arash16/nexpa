@@ -4,6 +4,7 @@ MOCHA_PHANTOM := node_modules/.bin/mocha-phantomjs
 NYC := node_modules/.bin/nyc
 SRC := src3
 ROLLUP := node_modules/.bin/rollup
+PHANTOM := node_modules/.bin/phantomjs
 
 build: build-es6 build-umd
 
@@ -22,4 +23,4 @@ test-node:
 	$(NYC) --reporter=html $(MOCHA) -r ./test/setup.js
 
 test-phantom:
-	$(MOCHA_PHANTOM) ./test/browser.html
+	$(MOCHA_PHANTOM) -p $(PHANTOM) ./test/browser.html
