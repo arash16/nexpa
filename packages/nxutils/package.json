@@ -1,6 +1,6 @@
 {
   "name": "nxutils",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Utility libraries for nexpa.",
   "author": "Arash Shakery <arash.shakery@gmail.com> (arash16.com)",
   "license": "Apache-2.0",
